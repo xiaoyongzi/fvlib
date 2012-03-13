@@ -30,22 +30,32 @@ import processing.core.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ * @author      Yannis Chatzikonstantinou <contact@volatileprototypes.com>
+ * @version     0.5.10                                    
+ * @since       0.4.0          
+ */
 public class Solver {
 
-  private final int numCPUs=getNumCPUs();
-  private Collection<Caller> cr = new ArrayList<Caller>(numCPUs); 	// Pre-caching of solver
-
-  static ExecutorService xs = Executors.newCachedThreadPool();		// Executor Service
+  private Collection<Caller> cr; 	// Pre-caching of solver
+  protected static ExecutorService xs;		// Executor Service
 
   // Constructor.
   public Solver() {
-    for (int i=0;i<numCPUs;i++) {
+    int numCPUs=getNumCPUs();
+    cr = new ArrayList<Caller>(numCPUs);
+    for (int i=0; i<numCPUs; i++) {
 		cr.add(new Caller(numCPUs,i));
 	  }
+    if (xs == null) {
+      xs = Executors.newFixedThreadPool(numCPUs);
+    }
   }
   
-  //Utility method to get number of CPUs
-  final static private int getNumCPUs() {
+  // Utility method to get number of CPUs
+  // Can be overridden by inheriting class
+  // to enforce a specific return value.
+  protected int getNumCPUs() {
         Runtime runtime = Runtime.getRuntime();
         return(Math.max(runtime.availableProcessors(),1));      
   }
@@ -58,6 +68,7 @@ public class Solver {
     try {
         xs.invokeAll(cr);
     } catch (InterruptedException ignore) {}
+    finalizeFunction();
   }
   
   // Same but steps all instances of this class by one iteration.
@@ -67,8 +78,9 @@ public class Solver {
   //  } catch (InterruptedException ignore) {}
   //}
   
-  protected void stepFunction(int step, int offset) {
-  }
+  protected void stepFunction(int step, int offset) {}
+
+  protected void finalizeFunction() {}
   
   // Inner class that calls the implemented solver function.
   // Is used during step()  to allow parallel execution (calling of the function many times

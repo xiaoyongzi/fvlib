@@ -30,7 +30,7 @@ import processing.core.*;
 
 /**
  * @author      Yiannis Chatzikonstantinou <contact@volatileprototypes.com>
- * @version     0.5.9                                    
+ * @version     0.5.10                                    
  * @since       0.2          
  */
 public class Link {
@@ -41,7 +41,6 @@ public class Link {
 				// more control over processor resources.
   				// One must call getL(true) to get the current
   				// L-value.
-
 /**
  * Constructor.
  *

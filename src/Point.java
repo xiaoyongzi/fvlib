@@ -27,6 +27,11 @@ package volatileprototypes.fvlib;
 
 import processing.core.*;
 
+/**
+ * @author      Yannis Chatzikonstantinou <contact@volatileprototypes.com>
+ * @version     0.5.10                                    
+ * @since       0.2.0          
+ */
 public class Point extends PVector {
 
   protected float w;							// Weight

@@ -1,4 +1,4 @@
-//  Copyright (c) 2010-2011, Ioannis (Yiannis) Chatzikonstantinou, ?All rights reserved.
+//  Copyright (c) 2010-2011, Ioannis (Yannis) Chatzikonstantinou, ?All rights reserved.
 //  http://www.volatileprototypes.com
 // 
 //  Redistribution and use in source and binary forms, with or without modification, 
@@ -27,13 +27,13 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * @author      Yiannis Chatzikonstantinou <contact@volatileprototypes.com>
- * @version     0.5.9                                    
+ * @author      Yannis Chatzikonstantinou <contact@volatileprototypes.com>
+ * @version     0.5.10                                    
  * @since       0.5.9          
  */
 public class Behavior extends Solver {
 
-  protected Point[] points;					// double array that holds points
+  protected Point[] points;					// Double array that holds points
 
 /**
  * Constructor, generates a new class instance with empty point array.

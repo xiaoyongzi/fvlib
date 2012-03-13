@@ -31,7 +31,7 @@ import java.util.concurrent.*;
 
 /**
  * @author      Yiannis Chatzikonstantinou <contact@volatileprototypes.com>
- * @version     0.5.9                                    
+ * @version     0.5.10                                    
  * @since       0.2.0          
  */
 public final class IntegratorVerlet extends Behavior {
@@ -67,7 +67,7 @@ private float F=.99f;			// Friction Constant.
   public IntegratorVerlet(Point[] pointsin) {
     super(pointsin);
   }
-  
+
 /**
  * Sets the friction value. 0 = max friction, 1 = no friction.
  *
@@ -102,29 +102,28 @@ private float F=.99f;			// Friction Constant.
     float tx,ty,tz;
     Point p;
     PVector o,f,u;
-	for (int i=offset,j=points.length;i<j;i+=step) {
-		p=points[i];
-		o=p.old;
-		f=p.sforce;
-		tx=p.x;
-		ty=p.y;
-		tz=p.z;
-		if (!p.U) {
-			p.x+=(tx-o.x)*F+f.x;
-			p.y+=(ty-o.y)*F+f.y;
-			p.z+=(tz-o.z)*F+f.z;
-			
-		} 
-		else {
-			u=p.uMult;
-			p.x+=((tx-o.x)*F+f.x)*u.x;
-			p.y+=((ty-o.y)*F+f.y)*u.y;
-			p.z+=((tz-o.z)*F+f.z)*u.z;
-		}
-		o.x=tx;
-		o.y=ty;
-		o.z=tz;
-		f.x=f.y=f.z=0;
-	}
+  	for (int i=offset,j=points.length;i<j;i+=step) {
+  		p=points[i];
+  		o=p.old;
+  		tx=p.x;
+  		ty=p.y;
+  		tz=p.z;
+      f=p.sforce;
+  		if (!p.U) {
+  			p.x+=(tx-o.x)*F+f.x;
+  			p.y+=(ty-o.y)*F+f.y;
+  			p.z+=(tz-o.z)*F+f.z;
+  		} 
+  		else {
+  			u=p.uMult;
+  			p.x+=((tx-o.x)*F+f.x)*u.x;
+  			p.y+=((ty-o.y)*F+f.y)*u.y;
+  			p.z+=((tz-o.z)*F+f.z)*u.z;
+  		}
+  		o.x=tx;
+  		o.y=ty;
+  		o.z=tz;
+      f.x=f.y=f.z=0;
+  	}
   }
 }

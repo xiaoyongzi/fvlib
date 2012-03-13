@@ -29,10 +29,15 @@ import processing.core.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ * @author      Yannis Chatzikonstantinou <contact@volatileprototypes.com>
+ * @version     0.5.10                                    
+ * @since       0.2.0          
+ */
 public final class BehaviorSpringRelaxation extends Solver {
 
 private Link[] links;			// array that holds points
-private boolean fast=false;		// Option for fast/accurate spring solver.
+private boolean fast=false;		// Option for fast vs. accurate spring solver.
 
 /**
  * Constructor, generates a new class instance.
@@ -62,7 +67,15 @@ private boolean fast=false;		// Option for fast/accurate spring solver.
   public BehaviorSpringRelaxation(Link[] linksin) {
     links=linksin;
   }
-  
+
+  // Override Utility method to get number of CPUs
+  // This is beacuse of concurrency issues
+  // (Any suggestions???)
+  @Override
+  protected int getNumCPUs() {
+        return(1);      
+  }
+
 /**
  * Sets the object's Link array using a copy of the supplied ArrayList.
  *
@@ -115,19 +128,19 @@ private boolean fast=false;		// Option for fast/accurate spring solver.
   
   @Override
   protected final void stepFunction(int step, int offset) {
-    if (fast) {fStepLinks(links, step, offset);} else {stepLinks(links, step, offset);}
+    if (fast) {fStepLinks();} else {stepLinks();}
   }
   
   //Dynamic relaxation solver for springs
   //for details see:
   //Jakobsen, Thomas - Advanced Character Physics
-  private final void stepLinks(Link[] links, int step, int offset) {
+  private final void stepLinks() {
     float d;
     float L2,C;
     Point p1,p2;
     float dx,dy,dz,lx,ly,lz;
     Link l;
-    for (int i=offset,j=links.length;i<j;i+=step) {
+    for (int i=0,j=links.length;i<j;i++) {
       l=links[i];
       p1=l.p1; p2=l.p2;
       dx=p2.x-p1.x;
@@ -141,23 +154,23 @@ private boolean fast=false;		// Option for fast/accurate spring solver.
       lx=d*dx;
       ly=d*dy;
       lz=d*dz;
-      p1.sforce.x+=lx;
-      p1.sforce.y+=ly;
-      p1.sforce.z+=lz;
-      p2.sforce.x-=lx;
-      p2.sforce.y-=ly;
-      p2.sforce.z-=lz;
+        p1.sforce.x+=lx;
+        p1.sforce.y+=ly;
+        p1.sforce.z+=lz;
+        p2.sforce.x-=lx;
+        p2.sforce.y-=ly;
+        p2.sforce.z-=lz;
     }
   }
   
   // Faster variant with one Newton iteration.
-  private final void fStepLinks(Link[] links, int step, int offset) {
+  private final void fStepLinks() {
     float d;
     float L2,C2;
     Point p1,p2;
     float dx,dy,dz,lx,ly,lz;
     Link l;
-    for (int i=offset,j=links.length;i<j;i+=step) {
+    for (int i=0,j=links.length;i<j;i++) {
       l=links[i];
       p1=l.p1; p2=l.p2;
       dx=p2.x-p1.x;
@@ -170,12 +183,12 @@ private boolean fast=false;		// Option for fast/accurate spring solver.
       lx=d*dx;
       ly=d*dy;
       lz=d*dz;
-      p1.sforce.x-=lx;
-      p1.sforce.y-=ly;
-      p1.sforce.z-=lz;
-      p2.sforce.x+=lx;
-      p2.sforce.y+=ly;
-      p2.sforce.z+=lz;
+        p1.sforce.x-=lx;
+        p1.sforce.y-=ly;
+        p1.sforce.z-=lz;
+        p2.sforce.x+=lx;
+        p2.sforce.y+=ly;
+        p2.sforce.z+=lz;
     }
   }
 }

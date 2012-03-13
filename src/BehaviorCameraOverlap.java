@@ -37,8 +37,8 @@ import java.util.concurrent.*;
 
 /**
  * @author      Yiannis Chatzikonstantinou <contact@volatileprototypes.com>
- * @version     0.5.9                                    
- * @since       0.5          
+ * @version     0.5.10                                    
+ * @since       0.5.0         
  */
 
 public final class BehaviorCameraOverlap extends Behavior {

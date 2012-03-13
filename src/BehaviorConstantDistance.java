@@ -31,8 +31,8 @@ import java.util.concurrent.*;
 
 /**
  * @author      Yiannis Chatzikonstantinou <contact@volatileprototypes.com>
- * @version     0.5.9                                    
- * @since       0.4          
+ * @version     0.5.10                                    
+ * @since       0.4.0          
  */
 public final class BehaviorConstantDistance extends Behavior {
 
@@ -67,6 +67,14 @@ private float R = 1.00f, R2 = R*R;
  */
   public BehaviorConstantDistance(Point[] pointsin) {
     super(pointsin);
+  }
+
+  // Override Utility method to get number of CPUs
+  // This is beacuse of concurrency issues
+  // (Any suggestions???)
+  @Override
+  protected int getNumCPUs() {
+        return(1);      
   }
 
 /**
